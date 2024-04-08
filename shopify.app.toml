@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "710112a353529d2916cc33b1a6ebd1b8"
+name = "custom-app-using-node"
+handle = "custom-app-using-node"
+application_url = "https://surveillance-hat-allen-experimental.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "myy-storee-testt.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://surveillance-hat-allen-experimental.trycloudflare.com/auth/callback",
+  "https://surveillance-hat-allen-experimental.trycloudflare.com/auth/shopify/callback",
+  "https://surveillance-hat-allen-experimental.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
