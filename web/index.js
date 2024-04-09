@@ -7,6 +7,7 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import PrivacyWebhookHandlers from "./privacy.js";
+import {checkoutProfile, checkoutProfileScheme1, checkoutProfileScheme2} from "./checkout-profile.js";
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -59,6 +60,49 @@ app.get("/api/products/create", async (_req, res) => {
   }
   res.status(status).send({ success: status === 200, error });
 });
+
+app.post("/api/checkout/branding", async (_req, res) => {
+  let status = 200;
+  let error = null;
+
+  try {
+    await checkoutProfile(res.locals.shopify.session, _req.body);
+  } catch (e) {
+    console.log(`Failed to process checkout profile: ${e.message}`);
+    status = 500;
+    error = e.message;
+  }
+  res.status(status).send({ success: status === 200, error });
+})
+
+
+app.post("/api/checkout/branding/scheme1", async (req, res) => {
+  let status = 200;
+  let error = null;
+
+  try {
+    await checkoutProfileScheme1(res.locals.shopify.session, req.body);
+  } catch (e) {
+    console.log(`Failed to process checkout profile: ${e.message}`);
+    status = 500;
+    error = e.message;
+  }
+  res.status(status).send({ success: status === 200, error });
+})
+
+app.post("/api/checkout/branding/scheme2", async (req, res) => {
+  let status = 200;
+  let error = null;
+
+  try {
+    await checkoutProfileScheme2(res.locals.shopify.session, req.body);
+  } catch (e) {
+    console.log(`Failed to process checkout profile: ${e.message}`);
+    status = 500;
+    error = e.message;
+  }
+  res.status(status).send({ success: status === 200, error });
+})
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
